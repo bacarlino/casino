@@ -40,3 +40,25 @@ class Wheel:
     def get(self, bin: int) -> Bin:
         """Return the requested Bin"""
         return self.bins[bin]
+    
+
+class BinBuilder:
+    """Creates available Outcome(s) instances and adds them to a Bin index"""
+    def __init__(self, wheel: Wheel):
+        self.wheel = wheel
+
+    def build_bins(self):
+        pass
+
+    def straight_bet(self) -> None:
+        """Create 38 straight bet Outcomes and send to the wheel"""
+        for index in range(37):
+            self.wheel.add_outcome(Outcome(f"Straight Bet {index}", 35))
+        self.wheel.add_outcome(Outcome("Straight Bet 0-0"), 35)
+
+    def split_bet(self) -> None:
+        """"""
+            
+
+
+        
