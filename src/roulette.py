@@ -52,12 +52,30 @@ class BinBuilder:
 
     def straight_bet(self) -> None:
         """Create 38 straight bet Outcomes and send to the wheel"""
-        for index in range(37):
-            self.wheel.add_outcome(Outcome(f"Straight Bet {index}", 35))
-        self.wheel.add_outcome(Outcome("Straight Bet 0-0"), 35)
+        for bin_index in range(37):
+            self.wheel.add_outcome(bin_index, Outcome(f"Straight Bet {bin_index}", 35))
+        self.wheel.add_outcome(37, Outcome("Straight Bet 0-0"), 35)
 
     def split_bet(self) -> None:
-        """"""
+        """Create all split bet Outcomes and send to the wheel"""
+
+        for row in range(12):
+
+            
+            first_column = (3 * row) + 1
+            first_outcome = Outcome(f"({first_column},{first_column+1}) Split Bet", 17)
+            self.wheel.add_outcome(first_column, first_outcome)
+            self.wheel.add_outcome(first_column+1, first_outcome)
+
+            second_column = (3 * row) + 3
+            second_outcome =  Outcome(f"({second_column},{second_column+1}) Split Bet", 17)
+            self.wheel.add_outcome(second_column, second_outcome)
+            self.wheel.add_outcome(second_column+1, second_outcome)
+
+        
+
+
+
             
 
 
