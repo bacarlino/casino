@@ -50,27 +50,50 @@ class BinBuilder:
     def build_bins(self):
         pass
 
-    def straight_bet(self) -> None:
+    def straight_bets(self) -> None:
         """Create 38 straight bet Outcomes and send to the wheel"""
         for bin_index in range(37):
             self.wheel.add_outcome(bin_index, Outcome(f"Straight Bet {bin_index}", 35))
         self.wheel.add_outcome(37, Outcome("Straight Bet 0-0"), 35)
 
-    def split_bet(self) -> None:
+    def split_bets(self) -> None:
         """Create all split bet Outcomes and send to the wheel"""
 
         for row in range(12):
-
-            
             first_column = (3 * row) + 1
-            first_outcome = Outcome(f"({first_column},{first_column+1}) Split Bet", 17)
+            first_outcome = Outcome(
+                f"({first_column},{first_column+1}) Split Bet", 17)
             self.wheel.add_outcome(first_column, first_outcome)
             self.wheel.add_outcome(first_column+1, first_outcome)
 
             second_column = (3 * row) + 3
-            second_outcome =  Outcome(f"({second_column},{second_column+1}) Split Bet", 17)
+            second_outcome =  Outcome(
+                f"({second_column}-{second_column+1}) Split Bet", 17)
             self.wheel.add_outcome(second_column, second_outcome)
             self.wheel.add_outcome(second_column+1, second_outcome)
+
+        for num in range(1, 34):
+            third_outcome = Outcome(f"({num}-{num+3}) Split Bet", 17)
+            self.wheel.add_outcome(num, third_outcome)
+            self.wheel.add_outcome(num+3, third_outcome)
+
+    def street_bets(self) -> None:
+        """Create (12) street bets and send to the wheel"""
+
+        for row in range(12):
+            num = (3*row) + 1
+            outcome = Outcome(
+                f"{num}-{num+1}-{num+2}", "Stree Bet")
+            
+            for x in range(3):
+                self.wheel.add_outcome(num + x, outcome)
+
+    def corner_bets(self) -> None:
+        pass
+
+
+
+
 
         
 
