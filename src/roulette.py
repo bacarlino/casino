@@ -17,7 +17,6 @@ class Outcome:
 
 class Bin(frozenset):
     """Represents a bin of a roulette wheel"""
-    pass
 
 
 class Wheel:
@@ -43,12 +42,21 @@ class Wheel:
     
 
 class BinBuilder:
-    """Creates available Outcome(s) instances and adds them to a Bin index"""
+    """Creates available Outcome instances and adds them to a Bin index"""
     def __init__(self, wheel: Wheel):
         self.wheel = wheel
 
     def build_bins(self):
-        pass
+        """Run all algorithm methods to create outcomes and send to the wheel"""
+        self.straight_bets()
+        self.split_bets()
+        self.street_bets()
+        self.corner_bets()
+        self.line_bets()
+        self.dozen_bets()
+        self.column_bets()
+        self.even_money_bets()
+        self.five_bet()
 
     def straight_bets(self) -> None:
         """Create 38 straight bet Outcomes and send to the wheel"""
@@ -60,13 +68,13 @@ class BinBuilder:
         """Create all split bet Outcomes and send to the wheel"""
 
         for row in range(12):
-            first_column = (3 * row) + 1
+            first_column = 3*row + 1
             first_outcome = Outcome(
                 f"({first_column},{first_column+1}) Split Bet", 17)
             self.wheel.add_outcome(first_column, first_outcome)
             self.wheel.add_outcome(first_column+1, first_outcome)
 
-            second_column = (3 * row) + 3
+            second_column = 3*row + 2
             second_outcome =  Outcome(
                 f"({second_column}-{second_column+1}) Split Bet", 17)
             self.wheel.add_outcome(second_column, second_outcome)
@@ -89,17 +97,72 @@ class BinBuilder:
                 self.wheel.add_outcome(num + x, outcome)
 
     def corner_bets(self) -> None:
-        pass
+        """Create the corner bets and send to the wheel"""
+        for row in range(11):
+            column_1_number = 3*row + 1
+            outcome_1 = Outcome(
+                f"{outcome_1}-{outcome_1 + 1}-{outcome_1 + 3}-"
+                f"{outcome_1 + 4} Corner Bet", 8)    
+            for x in [0, 1, 3, 4]:
+                self.wheel.add_outcome(column_1_number + x, outcome_1)
 
+            column_2_number = 3*row + 2
+            outcome_2 = Outcome(
+                f"{outcome_2}-{outcome_2 + 1}-{outcome_2 + 3}-"
+                f"{outcome_2 + 4} Corner Bet", 8)
+            for x in [0, 1, 3, 4]:
+                self.wheel.add_outcome(column_2_number + x, outcome_2)
 
+    def line_bets(self) -> None:
+        """Create line bets and send to the wheel"""
+        for row in range(11):
+            number = 3*row + 1
+            outcome = Outcome(
+                f"{number}-{number + 1}-{number + 2}-{number + 3}-"
+                f"{number + 4}-{number + 5} Line Bet", 5)
+            for x in range(6):
+                self.wheel.add_outcome(number + x, outcome)
+    
+    def dozen_bets(self) -> None:
+        """Create dozen bets and send to the wheel"""
+        for dozen in range(3):
+            outcome = Outcome(f"Dozen {dozen + 1} Bet", 2)
+            for x in range(12):
+                self.wheel.add_outcome(12*dozen + x + 1, outcome)
 
+    def column_bets(self) -> None:
+        """Create column bets and send to the wheel"""
+        for column in range(3):
+            outcome = Outcome(f"Column {column + 1} Bet", 2)
+            for row in range(12):
+                self.wheel.add_outcome(3*row + column + 1)
 
+    def even_money_bets(self) -> None:
+        """Create even money bets and send to the wheel"""
+        red = Outcome("Red Bet", 1)
+        black = Outcome("Black Bet", 1)
+        even = Outcome("Even Bet", 1)
+        odd = Outcome("Odd Bet", 1)
+        high = Outcome("High Bet", 1)
+        low = Outcome("Low Bet", 1)
 
-        
+        for num in range(1, 37):
+            if 1 <= num < 19:
+                self.wheel.add_outcome(num, low)
+            else:
+                self.wheel.add_outcome(num, high)
+            if num % 2 == 0:
+                self.wheel.add_outcome(num, even)
+            else:
+                self.wheel.add_outcome(num, odd)
+            if num in [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 
+                       21, 23, 25, 27, 30, 32, 34, 36]:
+                self.wheel.add_outcome(num, red)
+            else:
+                self.wheel.add_outcome(num, black)
 
-
-
-            
-
-
-        
+    def five_bet(self) -> None:
+        """Create the five bet and send to the wheel"""
+        outcome = Outcome("Five Bet", 6)
+        for bin in [0, 37, 1, 2, 3]:
+            self.wheel.add_outcome(bin, outcome)
