@@ -62,7 +62,7 @@ class BinBuilder:
         """Create 38 straight bet Outcomes and send to the wheel"""
         for bin_index in range(37):
             self.wheel.add_outcome(bin_index, Outcome(f"Straight Bet {bin_index}", 35))
-        self.wheel.add_outcome(37, Outcome("Straight Bet 0-0"), 35)
+        self.wheel.add_outcome(37, Outcome("Straight Bet 0-0", 35))
 
     def split_bets(self) -> None:
         """Create all split bet Outcomes and send to the wheel"""
@@ -70,18 +70,18 @@ class BinBuilder:
         for row in range(12):
             first_column = 3*row + 1
             first_outcome = Outcome(
-                f"({first_column},{first_column+1}) Split Bet", 17)
+                f"Split Bet {first_column}-{first_column+1}", 17)
             self.wheel.add_outcome(first_column, first_outcome)
             self.wheel.add_outcome(first_column+1, first_outcome)
 
             second_column = 3*row + 2
             second_outcome =  Outcome(
-                f"({second_column}-{second_column+1}) Split Bet", 17)
+                f"Split Bet {second_column}-{second_column+1}", 17)
             self.wheel.add_outcome(second_column, second_outcome)
             self.wheel.add_outcome(second_column+1, second_outcome)
 
         for num in range(1, 34):
-            third_outcome = Outcome(f"({num}-{num+3}) Split Bet", 17)
+            third_outcome = Outcome(f"Split Bet {num}-{num+3}", 17)
             self.wheel.add_outcome(num, third_outcome)
             self.wheel.add_outcome(num+3, third_outcome)
 
@@ -91,7 +91,7 @@ class BinBuilder:
         for row in range(12):
             num = (3*row) + 1
             outcome = Outcome(
-                f"{num}-{num+1}-{num+2}", "Stree Bet")
+                f"Street Bet {num}-{num+1}-{num+2}", 11)
             
             for x in range(3):
                 self.wheel.add_outcome(num + x, outcome)
@@ -101,15 +101,15 @@ class BinBuilder:
         for row in range(11):
             column_1_number = 3*row + 1
             outcome_1 = Outcome(
-                f"{outcome_1}-{outcome_1 + 1}-{outcome_1 + 3}-"
-                f"{outcome_1 + 4} Corner Bet", 8)    
+                f"Corner Bet {column_1_number}-{column_1_number + 1}-"
+                f"{column_1_number + 3}-{column_1_number + 4}", 8)    
             for x in [0, 1, 3, 4]:
                 self.wheel.add_outcome(column_1_number + x, outcome_1)
 
             column_2_number = 3*row + 2
             outcome_2 = Outcome(
-                f"{outcome_2}-{outcome_2 + 1}-{outcome_2 + 3}-"
-                f"{outcome_2 + 4} Corner Bet", 8)
+                f"Corner Bet {column_2_number}-{column_2_number + 1}-"
+                f"{column_2_number + 3}-{column_2_number + 4}", 8)
             for x in [0, 1, 3, 4]:
                 self.wheel.add_outcome(column_2_number + x, outcome_2)
 
@@ -118,24 +118,24 @@ class BinBuilder:
         for row in range(11):
             number = 3*row + 1
             outcome = Outcome(
-                f"{number}-{number + 1}-{number + 2}-{number + 3}-"
-                f"{number + 4}-{number + 5} Line Bet", 5)
+                f"Line Bet {number}-{number + 1}-{number + 2}-"
+                f"{number + 3}-{number + 4}-{number + 5}", 5)
             for x in range(6):
                 self.wheel.add_outcome(number + x, outcome)
     
     def dozen_bets(self) -> None:
         """Create dozen bets and send to the wheel"""
         for dozen in range(3):
-            outcome = Outcome(f"Dozen {dozen + 1} Bet", 2)
+            outcome = Outcome(f"Dozen Bet {dozen + 1}", 2)
             for x in range(12):
                 self.wheel.add_outcome(12*dozen + x + 1, outcome)
 
     def column_bets(self) -> None:
         """Create column bets and send to the wheel"""
         for column in range(3):
-            outcome = Outcome(f"Column {column + 1} Bet", 2)
+            outcome = Outcome(f"Column Bet {column + 1}", 2)
             for row in range(12):
-                self.wheel.add_outcome(3*row + column + 1)
+                self.wheel.add_outcome(3*row + column + 1, outcome)
 
     def even_money_bets(self) -> None:
         """Create even money bets and send to the wheel"""
