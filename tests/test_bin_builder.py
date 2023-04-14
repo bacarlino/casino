@@ -23,7 +23,11 @@ def test_bin_builder():
     assert Outcome("Corner Bet 2-3-5-6", 8) in wheel.get(5)
     assert Outcome("Corner Bet 4-5-7-8", 8) in wheel.get(5)
     assert Outcome("Corner Bet 5-6-8-9", 8) in wheel.get(5)
-    
+    assert Outcome("Line Bet 1-2-3-4-5-6", 5) in wheel.get(1)
+    for bin in range(2,38):
+        assert Outcome("Line Bet 1-2-3-4-5-6", 5) not in wheel.get(bin)
+
+     
 
     for row in range(12):
         number = 3*row + 1
