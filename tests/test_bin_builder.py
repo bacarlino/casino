@@ -27,8 +27,8 @@ def test_bin_builder():
 
     for row in range(12):
         number = 3*row + 1
-        line_bets = [outcome for outcome in wheel.get(number)
+        assert len([outcome for outcome in wheel.get(number)
                      if "Line Bet" in outcome[0]
                      and "1" in outcome[0]
-                    ]
+                    ]) == 1
         
