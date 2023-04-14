@@ -24,6 +24,7 @@ class Wheel:
     def __init__(self) -> None:
         self.bins = tuple(Bin() for _ in range(38))
         self.rng = random.Random()
+        self.all_outcomes = {}
 
     def add_outcome(self, number: int, outcome: Outcome) -> None:
         """Add given outcome to bin at given index number"""
@@ -31,6 +32,13 @@ class Wheel:
         bins_list = list(self.bins)
         bins_list[number] = new_bin
         self.bins = tuple(bins_list)
+        self.all_outcomes[outcome.name] = outcome
+
+    def get_outcome(self, name: str) -> Outcome:
+        try:
+            return self.all_outcomes[name]
+        except ValueError:
+            print("Not the name of a known Outcome value")
 
     def choose(self) -> Bin:
         """Return a randomly selected Bin"""
@@ -166,3 +174,9 @@ class BinBuilder:
         outcome = Outcome("Five Bet", 6)
         for bin in [0, 37, 1, 2, 3]:
             self.wheel.add_outcome(bin, outcome)
+
+
+@dataclass
+class Bet:
+    pass
+
