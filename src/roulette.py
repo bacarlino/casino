@@ -35,6 +35,7 @@ class Wheel:
         self.all_outcomes[outcome.name] = outcome
 
     def get_outcome(self, name: str) -> Outcome:
+        """Return an outcome that matches the given name"""
         try:
             return self.all_outcomes[name]
         except ValueError:
@@ -178,5 +179,13 @@ class BinBuilder:
 
 @dataclass
 class Bet:
-    pass
+    """Represents an amount wagered on a specific outcome"""
+    amount: int
+    outcome: Outcome
+
+    def win_amount(self) -> int:
+        return self.amount*self.outcome.odds + self.amount
+
+    def lose_amount(self) -> int:
+        return self.amount
 
